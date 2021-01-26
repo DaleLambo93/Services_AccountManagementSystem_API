@@ -42,8 +42,9 @@ namespace DL.Services.AMS.API
 
             services.AddLogging(config => config.AddLoggingBuilderExtensions(Configuration));
 
-            services.AddDomainServices(Configuration);
-            services.AddDataServices(Configuration);
+            services.AddDomainServices();
+            services.AddDbContextServices(Configuration);
+            services.AddDataServices();
         }
         
         public void Configure(IApplicationBuilder app,

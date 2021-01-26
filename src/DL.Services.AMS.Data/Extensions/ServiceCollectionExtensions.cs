@@ -19,17 +19,20 @@ namespace DL.Services.AMS.Data.Extensions
 {
     public static class ServiceCollectionExtensions
     {
-        public static void AddDataServices(this IServiceCollection services, 
-            IConfiguration configuration)
+        public static void AddDataServices(this IServiceCollection services)
         {
             services.AddMapperServices();
             services.AddManagerServices();
             services.AddRepositoryServices();
+        }
 
+        public static void AddDbContextServices(this IServiceCollection services, 
+            IConfiguration configuration)
+        {
             services.AddDbContext<AMSDbContext>(options => options
-                    .UseSqlServer(configuration.GetConnectionString("DatabaseConnection"),
-                        builder => builder.EnableRetryOnFailure(6, TimeSpan.FromSeconds(10), null)),
-                        ServiceLifetime.Transient);
+                .UseSqlServer(configuration.GetConnectionString("DatabaseConnection"),
+                    builder => builder.EnableRetryOnFailure(6, TimeSpan.FromSeconds(10), null)),
+                    ServiceLifetime.Transient);
         }
 
         private static void AddMapperServices(this IServiceCollection services)

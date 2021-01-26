@@ -16,7 +16,7 @@ namespace DL.Services.AMS.API.Controllers
             _useCaseFactory = useCaseFactory;
         }
 
-        [HttpPut()]
+        [HttpPut("Edit")]
         public async Task<IActionResult> Edit([FromBody] EditAccountDetailsRequest request)
         {
             var response = await _useCaseFactory.Get<EditAccountDetailsRequest, EditAccountDetailsResponse>()
@@ -27,7 +27,7 @@ namespace DL.Services.AMS.API.Controllers
                 return StatusCode((int)response.StatusCode, response.Reason);
             }
 
-            return Ok(response);
+            return Ok(response.AccountDetailsEntity);
         }
     }
 }

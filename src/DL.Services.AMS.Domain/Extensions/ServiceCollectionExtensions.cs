@@ -12,8 +12,7 @@ namespace DL.Services.AMS.Domain.Extensions
 {
     public static class ServiceCollectionExtensions
     {
-        public static void AddDomainServices(this IServiceCollection services, 
-            IConfiguration configuration)
+        public static void AddDomainServices(this IServiceCollection services)
         {
             services.AddUseCaseServices();
         }

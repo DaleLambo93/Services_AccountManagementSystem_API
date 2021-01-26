@@ -42,7 +42,8 @@ namespace DL.Services.AMS.Domain.UseCases.Account.Create
 
             return new CreateAccountResponse()
             { 
-                Account = accountEntity
+                AccountId = accountEntity.Id,
+                Status = accountEntity.Status
             };
         }
     }

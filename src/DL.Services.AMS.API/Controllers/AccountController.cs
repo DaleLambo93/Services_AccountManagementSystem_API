@@ -30,6 +30,7 @@ namespace DL.Services.AMS.API.Controllers
         }
 
         [HttpGet]
+        [Route("{accountId}")]
         public async Task<IActionResult> Get(int accountId)
         {
             var response = await _useCaseFactory.Get<FetchAccountRequest, FetchAccountResponse>()
@@ -43,7 +44,7 @@ namespace DL.Services.AMS.API.Controllers
                 return StatusCode((int)response.StatusCode, response.Reason);
             }
 
-            return Ok(response);
+            return Ok(response.AccountEntity);
         }
 
         [HttpPut("{accountId}/Confirm")]
@@ -88,6 +89,11 @@ namespace DL.Services.AMS.API.Controllers
                 {
                     AccountId = accountId
                 });
+
+            if (response.StatusCode != HttpStatusCode.OK)
+            {
+                return StatusCode((int)response.StatusCode, response.Reason);
+            }
 
             return Ok(response.Reason);
         }
