@@ -1,5 +1,6 @@
 ﻿using DL.Services.AMS.Domain.Ports.Fetchers;
 using DL.Services.AMS.Domain.Ports.Updaters;
+using Microsoft.Extensions.Logging;
 using System.Net;
 using System.Threading.Tasks;
 
@@ -9,12 +10,15 @@ namespace DL.Services.AMS.Domain.UseCases.Account.Cancel
     {
         private readonly IAccountFetcher _fetcher;
         private readonly IAccountUpdater _updater;
+        private readonly ILogger<CancelAccountUseCase> _logger;
 
         public CancelAccountUseCase(IAccountFetcher fetcher,
-            IAccountUpdater updater)
+            IAccountUpdater updater,
+            ILogger<CancelAccountUseCase> logger)
         {
             _fetcher = fetcher;
             _updater = updater;
+            _logger = logger;
         }
 
         public async Task<CancelAccountResponse> Handle(CancelAccountRequest request)
@@ -32,6 +36,7 @@ namespace DL.Services.AMS.Domain.UseCases.Account.Cancel
 
             accountEntity = await _updater
                 .UpdateStatus(accountEntity.Id, Entities.Constants.AccountStatus.Cancelled);
+            _logger.LogInformation($"Account with Id {request.AccountId} is now Cancelled.");
 
             return new CancelAccountResponse()
             {

@@ -1,5 +1,6 @@
 ﻿using DL.Services.AMS.Domain.Ports.Fetchers;
 using DL.Services.AMS.Domain.Ports.Updaters;
+using Microsoft.Extensions.Logging;
 using System.Net;
 using System.Threading.Tasks;
 
@@ -9,12 +10,15 @@ namespace DL.Services.AMS.Domain.UseCases.AccountDetails.Edit
     {
         private readonly IAccountDetailsFetcher _fetcher;
         private readonly IAccountDetailsUpdater _updater;
+        private readonly ILogger<EditAccountDetailsUseCase> _logger;
 
         public EditAccountDetailsUseCase(IAccountDetailsFetcher fetcher,
-            IAccountDetailsUpdater updater)
+            IAccountDetailsUpdater updater,
+            ILogger<EditAccountDetailsUseCase> logger)
         {
             _fetcher = fetcher;
             _updater = updater;
+            _logger = logger;
         }
 
         public async Task<EditAccountDetailsResponse> Handle(EditAccountDetailsRequest request)
@@ -31,6 +35,7 @@ namespace DL.Services.AMS.Domain.UseCases.AccountDetails.Edit
             }
 
             accountDetailsEntity = await _updater.Update(request);
+            _logger.LogInformation($"Account Details with Id {request.AccountId} was updated.");
 
             return new EditAccountDetailsResponse()
             {
