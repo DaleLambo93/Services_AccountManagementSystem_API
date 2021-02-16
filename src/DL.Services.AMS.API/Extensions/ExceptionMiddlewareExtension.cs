@@ -9,6 +9,7 @@ namespace DL.Services.AMS.API.Extensions
 {
     public static class ExceptionMiddlewareExtension
     {
+        // Logs any exceptions not caught
         public static void ConfigureExceptionHandler(this IApplicationBuilder app,
             ILoggerFactory loggerFactory)
         {
